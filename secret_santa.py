@@ -34,13 +34,10 @@ def split_name_email(person):
 
 
 def make_mapping(people):
-    a = list(people)
-    b = a.copy()
-    while True:
-        random.shuffle(b)
-        mapping = dict(zip(a, b))
-        if not any(x == y for x, y in mapping.items()):
-            return mapping
+    people = list(people)
+    random.shuffle(people)
+    rolled_people = people[1:] + people[:1]
+    return dict(zip(people, rolled_people))
 
 
 def main():
