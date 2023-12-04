@@ -51,6 +51,7 @@ def main():
         eml = email.message.EmailMessage()
         eml["Subject"] = "Salapukkilahja"
         eml["To"] = full_santa
+        eml["X-Unsent"] = "1"
         eml.set_content(email_content)
         dest_name = dest_dir / f"secret_santa_{i:04d}.eml"
         dest_name.write_bytes(eml.as_bytes())
