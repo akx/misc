@@ -1,3 +1,4 @@
+import argparse
 from fractions import Fraction
 
 COMMON_ASPECT_RATIOS = [
@@ -21,17 +22,24 @@ def quantize(n: int, q: int) -> int:
 
 
 def main():
-    target_pix = 1024 * 1024
-    pix_leeway = 0.1
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--target-mpix", default=1, type=float)
+    ap.add_argument("--pix-leeway", default=0.1, type=float)
+    ap.add_argument("--min-ar", default=0.5, type=float)
+    ap.add_argument("--max-ar", default=2.0, type=float)
+    args = ap.parse_args()
+    target_pix = args.target_mpix * 1024 * 1024
+    max_size = int(args.target_mpix * 1024 * 2)
+    pix_leeway = args.pix_leeway
+    min_ar = args.min_ar
+    max_ar = args.max_ar
     min_pix = target_pix * (1 - pix_leeway)
     max_pix = target_pix * (1 + pix_leeway)
-    min_ar = 0.5
-    max_ar = 2.0
 
     options = set()
 
-    for w in range(64, 2048, 8):
-        for h in range(64, 2048, 8):
+    for w in range(64, max_size, 8):
+        for h in range(64, max_size, 8):
             w = quantize(w, 64)
             h = quantize(h, 64)
             pix = w * h
