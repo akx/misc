@@ -1,1 +1,3 @@
+[lint]
 extend-select = ["COM"]
+unfixable = ["F401"]  # don't auto-remove imports
