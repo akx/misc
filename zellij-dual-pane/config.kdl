@@ -1,0 +1,7 @@
+keybinds {
+    normal {
+        bind "Ctrl c" { Quit; }
+    }
+}
+
+on_force_close "quit"

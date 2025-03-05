@@ -1,0 +1,27 @@
+#!/bin/bash
+WD=$(pwd)
+CMD1=${1:-"echo 'Command 1 not specified'"}
+CMD2=${2:-"echo 'Command 2 not specified'"}
+PROG_DIR="$(dirname "$(realpath "$0")")"
+TEMP_LAYOUT=$(mktemp /tmp/temp_layout.kdl.XXXXXX)
+CONFIG_FILE="$PROG_DIR"/config.kdl
+cat > "$TEMP_LAYOUT" <<EOF
+layout {
+    default_tab_template {
+        children
+    }
+
+    tab name="Dual Commands" {
+        pane split_direction="vertical" {
+            pane command="sh" cwd="$WD" {
+                args "-c" "$CMD1"
+            }
+            pane command="sh" cwd="$WD" {
+                args "-c" "$CMD2"
+            }
+        }
+    }
+}
+EOF
+zellij --new-session-with-layout "$TEMP_LAYOUT" --config "$CONFIG_FILE"
+rm -f "$TEMP_LAYOUT"
