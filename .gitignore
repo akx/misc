@@ -1,3 +1,5 @@
 *.eml
 *.gif
 *.wav
+pyproject.toml
+uv.lock
